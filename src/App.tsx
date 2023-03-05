@@ -1,3 +1,6 @@
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { useThemeStore } from "./stores";
 import {
   ErrorToast,
   LoadingAnimation,
@@ -6,8 +9,17 @@ import {
 } from "./components";
 
 const App = () => {
+  const currentMode = useThemeStore((state) => state.theme);
+
+  const theme = createTheme({
+    palette: {
+      mode: currentMode,
+    },
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <nav>
         <Navbar />
       </nav>
@@ -17,7 +29,7 @@ const App = () => {
         <LoadingAnimation />
         <ErrorToast />
       </main>
-    </>
+    </ThemeProvider>
   );
 };
 

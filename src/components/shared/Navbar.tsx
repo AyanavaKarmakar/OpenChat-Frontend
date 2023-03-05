@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { Box, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import Brightness4SharpIcon from "@mui/icons-material/Brightness4Sharp";
 import BrightnessHighSharpIcon from "@mui/icons-material/BrightnessHighSharp";
+import { useThemeStore } from "../../stores";
 
 export const Navbar = () => {
-  const [themeToggle, setThemeToggle] = useState("light");
+  const themeController = useThemeStore();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -19,11 +19,9 @@ export const Navbar = () => {
             edge="end"
             color="inherit"
             aria-label="theme-toggle"
-            onClick={() =>
-              setThemeToggle(themeToggle === "dark" ? "light" : "dark")
-            }
+            onClick={() => themeController.setTheme()}
           >
-            {themeToggle === "dark" ? (
+            {themeController.theme === "dark" ? (
               <BrightnessHighSharpIcon />
             ) : (
               <Brightness4SharpIcon />
