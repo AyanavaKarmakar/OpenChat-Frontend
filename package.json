@@ -15,7 +15,8 @@
     "@tanstack/react-query": "^4.26.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zod": "^3.21.0"
+    "zod": "^3.21.0",
+    "zustand": "^4.3.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
