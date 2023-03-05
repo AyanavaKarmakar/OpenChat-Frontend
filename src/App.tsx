@@ -1,11 +1,22 @@
-import { ErrorToast, LoadingAnimation, GreetingComponent } from "./components";
+import {
+  ErrorToast,
+  LoadingAnimation,
+  GreetingComponent,
+  Navbar,
+} from "./components";
 
 const App = () => {
   return (
     <>
-      <GreetingComponent />
-      <LoadingAnimation />
-      <ErrorToast />
+      <nav>
+        <Navbar />
+      </nav>
+
+      <main>
+        <GreetingComponent />
+        <LoadingAnimation />
+        <ErrorToast />
+      </main>
     </>
   );
 };
