@@ -1,17 +1,18 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { GreetingResponseSchema } from "./types/GreetingResponse";
-import { useErrorStore } from "./stores/ErrorStore";
-import { ErrorToast, BaseToast } from "./components";
+import { ErrorToast, BaseToast, LoadingAnimation } from "./components";
+import { useErrorStore, useLoadingStore } from "./stores";
 
 const App = () => {
-  const [loading, isLoading] = useState(true);
+  const loading = useLoadingStore();
   const error = useErrorStore();
 
   const GetGreeting = useQuery({
     queryKey: ["greeting"],
 
     queryFn: async () => {
+      loading.setLoading();
+
       const response = await fetch("http://localhost:5271");
       const data = await response.json();
 
@@ -29,17 +30,17 @@ const App = () => {
     },
 
     onSettled: () => {
-      isLoading(false);
+      loading.unsetLoading();
     },
   });
 
   return (
     <>
-      {!loading && GetGreeting.data && (
+      {!loading.isLoading && GetGreeting.data && (
         <BaseToast severity="info" message={GetGreeting.data.message} />
       )}
 
-      {loading && <p>Loading...</p>}
+      <LoadingAnimation />
 
       <ErrorToast />
     </>
