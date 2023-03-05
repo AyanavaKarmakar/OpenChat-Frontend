@@ -1,7 +1,6 @@
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { useState, forwardRef, useEffect } from "react";
-import { useErrorStore } from "../../stores/ErrorStore";
+import { type FC, useState, forwardRef } from "react";
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -10,21 +9,13 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="standard" {...props} />;
 });
 
-export const ErrorToast = () => {
-  const [open, setOpen] = useState(false);
-  const error = useErrorStore();
+interface Props {
+  severity: "error" | "warning" | "info" | "success";
+  message: string;
+}
 
-  useEffect(() => {
-    if (error.isError) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
-
-    return () => {
-      setOpen(false);
-    };
-  }, [error.isError]);
+export const BaseToast: FC<Props> = (props) => {
+  const [open, setOpen] = useState(true);
 
   return (
     <Snackbar
@@ -36,10 +27,10 @@ export const ErrorToast = () => {
     >
       <Alert
         onClose={() => setOpen(false)}
-        severity="error"
+        severity="info"
         sx={{ width: "100%" }}
       >
-        {error.message}
+        {props.message}
       </Alert>
     </Snackbar>
   );
