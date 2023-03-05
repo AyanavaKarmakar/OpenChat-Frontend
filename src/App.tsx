@@ -28,11 +28,11 @@ const App = () => {
 
   return (
     <>
-      <p>{GetGreeting.data?.message}</p>
+      <h1>{GetGreeting.data?.message}</h1>
 
-      {loading && <p>Loading...</p>}
+      {loading && <h1>Loading...</h1>}
 
-      {error.isError && <p>{error.message}</p>}
+      {error.isError && <h1>{error.message}</h1>}
     </>
   );
 };
