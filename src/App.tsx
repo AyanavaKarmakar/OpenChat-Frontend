@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { GreetingResponseSchema } from "./types/GreetingResponse";
 import { useErrorStore } from "./stores/ErrorStore";
+import { ErrorToast } from "./components";
 
 const App = () => {
   const [loading, isLoading] = useState(true);
@@ -39,6 +40,8 @@ const App = () => {
       {loading && <h1>Loading...</h1>}
 
       {error.isError && <h1>{error.message}</h1>}
+
+      <ErrorToast />
     </>
   );
 };
