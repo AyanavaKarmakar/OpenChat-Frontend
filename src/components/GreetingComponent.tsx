@@ -1,14 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useErrorStore, useLoadingStore } from "../stores";
 import { GreetingResponseSchema } from "../types/GreetingResponse";
 import { BaseToast } from "./shared/BaseToast";
+import { useEffect } from "react";
 
 export const GreetingComponent = () => {
   const loading = useLoadingStore();
   const error = useErrorStore();
+  const queryClient = useQueryClient();
+  const queryKey = ["greeting"];
 
   const GetGreeting = useQuery({
-    queryKey: ["greeting"],
+    queryKey,
 
     queryFn: async () => {
       loading.setLoading();
@@ -19,7 +22,7 @@ export const GreetingComponent = () => {
       return GreetingResponseSchema.parse(data);
     },
 
-    enabled: true,
+    enabled: false,
 
     onSuccess: () => {
       error.clearError();
@@ -33,6 +36,11 @@ export const GreetingComponent = () => {
       loading.unsetLoading();
     },
   });
+
+  // show greeting toast only once on page load
+  useEffect(() => {
+    queryClient.fetchQuery(queryKey);
+  }, []);
 
   return (
     <>
