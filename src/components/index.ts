@@ -1,4 +1,4 @@
-export { AuthContainer } from "./AuthContainer";
+export { AuthContainer } from "./Auth/AuthContainer";
 export { Navbar } from "./shared/Navbar";
 export { GreetingComponent } from "./GreetingComponent";
 export { BaseToast } from "./shared/BaseToast";
