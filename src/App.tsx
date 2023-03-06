@@ -2,10 +2,11 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useThemeStore } from "./stores";
 import {
+  Navbar,
   ErrorToast,
+  AuthContainer,
   LoadingAnimation,
   GreetingComponent,
-  Navbar,
 } from "./components";
 
 const App = () => {
@@ -25,6 +26,8 @@ const App = () => {
       </nav>
 
       <main>
+        <AuthContainer />
+
         <GreetingComponent />
         <LoadingAnimation />
         <ErrorToast />
