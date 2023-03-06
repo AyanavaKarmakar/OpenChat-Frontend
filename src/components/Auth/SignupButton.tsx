@@ -1,12 +1,15 @@
 import { Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { type FC } from "react";
 
-export const SignupButton = () => {
+interface Props {
+  username: string;
+  password: string;
+}
+
+export const SignupButton: FC<Props> = ({ username, password }) => {
   return (
-    <Link to="/auth" style={{ textDecoration: "none" }}>
-      <Button color="info" disabled={false} size="large" variant="contained">
-        <Typography variant="h6">Sign up</Typography>
-      </Button>
-    </Link>
+    <Button color="info" disabled={false} size="large" variant="contained">
+      <Typography variant="h6">Sign up</Typography>
+    </Button>
   );
 };
