@@ -11,11 +11,23 @@ export const useErrorStore = create<TErrorStore>((set) => ({
   isError: false,
   message: "",
 
-  setError: () =>
+  setError: () => {
     set({
       isError: true,
       message: "Something went wrong. Please try again!",
-    }),
+    });
+
+    const timer = setTimeout(() => {
+      set({
+        isError: false,
+        message: "",
+      });
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  },
 
   clearError: () =>
     set({

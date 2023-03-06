@@ -1,10 +1,11 @@
 import { Box, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import Brightness4SharpIcon from "@mui/icons-material/Brightness4Sharp";
 import BrightnessHighSharpIcon from "@mui/icons-material/BrightnessHighSharp";
-import { useThemeStore } from "../../stores";
+import { useThemeStore, useUserStore } from "../../stores";
 
 export const Navbar = () => {
   const themeController = useThemeStore();
+  const user = useUserStore();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -13,6 +14,12 @@ export const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             OPENCHAT
           </Typography>
+
+          {user.username !== "" && (
+            <Typography variant="h6" component="div">
+              {`[ ${user.username} ]`}
+            </Typography>
+          )}
 
           <IconButton
             size="large"

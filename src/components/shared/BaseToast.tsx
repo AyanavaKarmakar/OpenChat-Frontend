@@ -27,7 +27,7 @@ export const BaseToast: FC<Props> = (props) => {
     >
       <Alert
         onClose={() => setOpen(false)}
-        severity="info"
+        severity={props.severity}
         sx={{ width: "100%" }}
       >
         {props.message}
