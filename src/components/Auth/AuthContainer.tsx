@@ -1,6 +1,5 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { SignupButton } from "./SignupButton";
-import { LoginButton } from "./LoginButton";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const AuthContainer = () => {
   return (
@@ -25,8 +24,27 @@ export const AuthContainer = () => {
             justifyContent: "center",
           }}
         >
-          <SignupButton />
-          <LoginButton />
+          <Link to="/auth" style={{ textDecoration: "none" }}>
+            <Button
+              color="info"
+              disabled={false}
+              size="large"
+              variant="contained"
+            >
+              <Typography variant="h6">Sign up</Typography>
+            </Button>
+          </Link>
+
+          <Link to="/auth" style={{ textDecoration: "none" }}>
+            <Button
+              color="success"
+              disabled={false}
+              size="large"
+              variant="contained"
+            >
+              <Typography variant="h6">Log in</Typography>
+            </Button>
+          </Link>
         </Stack>
       </Stack>
     </Box>
