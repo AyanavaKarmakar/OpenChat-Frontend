@@ -1,7 +1,10 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useUserStore } from "../../stores";
 
 export const AuthContainer = () => {
+  const user = useUserStore();
+
   return (
     <Box
       sx={{
@@ -24,27 +27,33 @@ export const AuthContainer = () => {
             justifyContent: "center",
           }}
         >
-          <Link to="/auth" style={{ textDecoration: "none" }}>
-            <Button
-              color="info"
-              disabled={false}
-              size="large"
-              variant="contained"
-            >
-              <Typography variant="h6">Sign up</Typography>
-            </Button>
-          </Link>
+          {user.username === "" ? (
+            <>
+              <Link to="/auth" style={{ textDecoration: "none" }}>
+                <Button color="info" size="large" variant="contained">
+                  <Typography variant="h6">Sign up</Typography>
+                </Button>
+              </Link>
 
-          <Link to="/auth" style={{ textDecoration: "none" }}>
+              <Link to="/auth" style={{ textDecoration: "none" }}>
+                <Button color="success" size="large" variant="contained">
+                  <Typography variant="h6">Log in</Typography>
+                </Button>
+              </Link>
+            </>
+          ) : (
             <Button
-              color="success"
-              disabled={false}
+              onClick={() => {
+                localStorage.removeItem("token");
+                user.clearUsername();
+              }}
+              color="error"
               size="large"
               variant="contained"
             >
-              <Typography variant="h6">Log in</Typography>
+              <Typography variant="h6">Log out</Typography>
             </Button>
-          </Link>
+          )}
         </Stack>
       </Stack>
     </Box>
