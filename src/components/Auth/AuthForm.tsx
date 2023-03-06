@@ -75,7 +75,11 @@ export const AuthForm = () => {
           justifyContent: "center",
         }}
       >
-        <SignupButton username={username} password={password} />
+        <SignupButton
+          disabled={usernameError || passwordError}
+          username={username}
+          password={password}
+        />
         <LoginButton />
       </Stack>
     </Stack>
