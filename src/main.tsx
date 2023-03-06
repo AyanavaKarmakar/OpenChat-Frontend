@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AuthForm, ErrorToast, LoadingAnimation, Navbar } from "./components";
+import { AuthForm, ErrorPage, ErrorToast, LoadingAnimation, Navbar } from "./components";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, createTheme } from "@mui/material";
 import { useThemeStore } from "./stores";
@@ -16,10 +16,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/auth",
     element: <AuthForm />,
+    errorElement: <ErrorPage />,
   },
 ]);
 
