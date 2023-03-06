@@ -1,7 +1,8 @@
-import { Typography, Stack, TextField } from "@mui/material";
+import { Typography, Stack, TextField, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { LoginButton } from "./LoginButton";
 import { SignupButton } from "./SignupButton";
+import { Link } from "react-router-dom";
 
 export const AuthForm = () => {
   const [username, setUsername] = useState("John Doe");
@@ -34,12 +35,11 @@ export const AuthForm = () => {
     <Stack
       spacing={5}
       direction="column"
-      sx={{ width: "100%", maxWidth: "400px", margin: "0 auto", mt: 5 }}
+      sx={{ width: "100%", maxWidth: "450px", margin: "0 auto", mt: 5 }}
     >
       <Typography variant="h3" sx={{ textAlign: "center", fontWeight: "bold" }}>
         Login or Signup
       </Typography>
-
       <TextField
         type="text"
         id="username"
@@ -75,11 +75,18 @@ export const AuthForm = () => {
           justifyContent: "center",
         }}
       >
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Button color="secondary" size="large" variant="contained">
+            <Typography variant="h6">Go Back</Typography>
+          </Button>
+        </Link>
+
         <SignupButton
           disabled={usernameError || passwordError}
           username={username}
           password={password}
         />
+
         <LoginButton />
       </Stack>
     </Stack>
