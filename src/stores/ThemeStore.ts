@@ -6,7 +6,7 @@ type TThemeStore = {
 };
 
 export const useThemeStore = create<TThemeStore>((set) => ({
-  theme: "dark",
+  theme: "light",
 
   setTheme: () =>
     set((state) => ({ theme: state.theme === "dark" ? "light" : "dark" })),
