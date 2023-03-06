@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const SignupButton = () => {
   return (
-    <Link to="/auth">
+    <Link to="/auth" style={{ textDecoration: "none" }}>
       <Button color="info" disabled={false} size="large" variant="contained">
         <Typography variant="h6">Sign up</Typography>
       </Button>
