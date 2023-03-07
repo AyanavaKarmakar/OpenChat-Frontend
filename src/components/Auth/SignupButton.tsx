@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { RegisterUserResponseSchema } from "../../types/RegisterUserResponseSchema";
 import { type FC, useState } from "react";
-import { BaseToast } from "../shared/BaseToast";
+import { BaseToast, type TBaseToastProps } from "../shared/BaseToast";
 import { useErrorStore, useLoadingStore } from "../../stores";
 import { useNavigate } from "react-router-dom";
 
@@ -11,11 +11,6 @@ interface Props {
   password: string;
   disabled: boolean;
 }
-
-type TBaseToastProps = {
-  severity: "error" | "warning" | "info" | "success";
-  message: string;
-};
 
 export const SignupButton: FC<Props> = ({ username, password, disabled }) => {
   const navigate = useNavigate();
@@ -47,8 +42,19 @@ export const SignupButton: FC<Props> = ({ username, password, disabled }) => {
       if ("message" in data && data.message === "Username already taken") {
         setBaseToastProps({
           severity: "warning",
-          message: "Username already taken!",
+          message: "Username is already taken!",
         });
+
+        const timer = setTimeout(() => {
+          setBaseToastProps({
+            severity: "info",
+            message: "",
+          });
+        }, 5000);
+
+        return () => {
+          clearTimeout(timer);
+        };
       }
 
       if ("token" in data) {
@@ -60,6 +66,17 @@ export const SignupButton: FC<Props> = ({ username, password, disabled }) => {
         localStorage.setItem("token", data.token);
 
         navigate("/");
+
+        const timer = setTimeout(() => {
+          setBaseToastProps({
+            severity: "info",
+            message: "",
+          });
+        }, 5000);
+
+        return () => {
+          clearTimeout(timer);
+        };
       }
     },
 

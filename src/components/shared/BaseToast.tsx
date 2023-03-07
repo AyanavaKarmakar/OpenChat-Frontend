@@ -9,18 +9,18 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="standard" {...props} />;
 });
 
-interface Props {
+export type TBaseToastProps = {
   severity: "error" | "warning" | "info" | "success";
   message: string;
-}
+};
 
-export const BaseToast: FC<Props> = (props) => {
+export const BaseToast: FC<TBaseToastProps> = (props) => {
   const [open, setOpen] = useState(true);
 
   return (
     <Snackbar
       open={open}
-      autoHideDuration={10000}
+      autoHideDuration={5000}
       onClose={() => setOpen(false)}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       key={"bottom" + "center"}

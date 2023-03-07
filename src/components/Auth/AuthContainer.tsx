@@ -28,19 +28,11 @@ export const AuthContainer = () => {
           }}
         >
           {user.username === "" ? (
-            <>
-              <Link to="/auth" style={{ textDecoration: "none" }}>
-                <Button color="info" size="large" variant="contained">
-                  <Typography variant="h6">Sign up</Typography>
-                </Button>
-              </Link>
-
-              <Link to="/auth" style={{ textDecoration: "none" }}>
-                <Button color="success" size="large" variant="contained">
-                  <Typography variant="h6">Log in</Typography>
-                </Button>
-              </Link>
-            </>
+            <Link to="/auth" style={{ textDecoration: "none" }}>
+              <Button color="primary" size="large" variant="contained">
+                <Typography variant="h6">Log in / Sign up</Typography>
+              </Button>
+            </Link>
           ) : (
             <Button
               onClick={() => {
