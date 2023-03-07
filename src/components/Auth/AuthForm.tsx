@@ -35,7 +35,7 @@ export const AuthForm = () => {
     <Stack
       spacing={5}
       direction="column"
-      sx={{ width: "100%", maxWidth: "450px", margin: "0 auto", mt: 5 }}
+      sx={{ width: "100%", maxWidth: "450px", margin: "0 auto", mt: 12 }}
     >
       <Typography variant="h3" sx={{ textAlign: "center", fontWeight: "bold" }}>
         Login or Signup
