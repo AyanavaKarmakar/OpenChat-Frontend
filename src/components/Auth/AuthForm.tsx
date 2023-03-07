@@ -87,7 +87,11 @@ export const AuthForm = () => {
           password={password}
         />
 
-        <LoginButton />
+        <LoginButton
+          disabled={usernameError || passwordError}
+          username={username}
+          password={password}
+        />
       </Stack>
     </Stack>
   );
