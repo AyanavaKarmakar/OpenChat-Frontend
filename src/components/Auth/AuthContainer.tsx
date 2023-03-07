@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../../stores";
+import { LogoutButton } from "./LogoutButton";
 
 export const AuthContainer = () => {
   const user = useUserStore();
@@ -34,17 +35,7 @@ export const AuthContainer = () => {
               </Button>
             </Link>
           ) : (
-            <Button
-              onClick={() => {
-                localStorage.removeItem("token");
-                user.clearUsername();
-              }}
-              color="error"
-              size="large"
-              variant="contained"
-            >
-              <Typography variant="h6">Log out</Typography>
-            </Button>
+            <LogoutButton />
           )}
         </Stack>
       </Stack>
