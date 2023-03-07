@@ -1,8 +1,9 @@
 import { Fab, Typography, Stack, Paper } from "@mui/material";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useErrorStore, useLoadingStore } from "../../stores";
+import { MessagesResponseSchema } from "../../types/MessagesResponseSchema";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 export const ChatContainer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -16,7 +17,7 @@ export const ChatContainer = () => {
       loading.setLoading();
 
       const response = await fetch("http://localhost:5271/api/v1/messages");
-      const data = await response.json();
+      const data = MessagesResponseSchema.parse(await response.json());
 
       console.log(data);
 
