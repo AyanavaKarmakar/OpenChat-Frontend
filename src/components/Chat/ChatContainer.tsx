@@ -111,8 +111,8 @@ export const ChatContainer = () => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  <EditMessageButton />
-                  <DeleteMessageButton />
+                  <EditMessageButton id={id} />
+                  <DeleteMessageButton id={id} />
                 </Stack>
               )}
             </Paper>
