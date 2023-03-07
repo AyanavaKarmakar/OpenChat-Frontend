@@ -4,7 +4,7 @@ import { useState, type FC } from "react";
 import { useLoadingStore, useErrorStore } from "../../stores";
 import { BaseToast, type TBaseToastProps } from "../shared/BaseToast";
 import { useMutation } from "@tanstack/react-query";
-import { RegisterUserResponseSchema } from "../../types/RegisterUserResponseSchema";
+import { LoginUserResponseSchema } from "../../types/LoginUserResponseSchema";
 
 interface Props {
   username: string;
@@ -33,7 +33,7 @@ export const LoginButton: FC<Props> = ({ username, password, disabled }) => {
         },
         body: JSON.stringify({ username, password }),
       });
-      const data = RegisterUserResponseSchema.parse(await response.json());
+      const data = LoginUserResponseSchema.parse(await response.json());
 
       if ("message" in data && data.message === "User doesn't exist") {
         setBaseToastProps({
