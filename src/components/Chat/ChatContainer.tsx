@@ -1,15 +1,18 @@
 import { Fab, Typography, Stack, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useErrorStore, useLoadingStore } from "../../stores";
+import { useErrorStore, useLoadingStore, useUserStore } from "../../stores";
 import { MessagesResponseSchema } from "../../types/MessagesResponseSchema";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { GetMessageTime } from "../../utils/GetMessageTime";
+import { EditMessageButton } from "./EditMessageButton";
+import { DeleteMessageButton } from "./DeleteMessageButton";
 
 export const ChatContainer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const error = useErrorStore();
   const loading = useLoadingStore();
+  const user = useUserStore();
 
   const GetMessages = useQuery({
     queryKey: ["get_messages"],
@@ -98,6 +101,20 @@ export const ChatContainer = () => {
               <Typography variant="subtitle1" sx={{ mt: 1 }}>
                 {`${sender} ${GetMessageTime(new Date(timestamp))}`}
               </Typography>
+
+              {user.username === sender || (
+                <Stack
+                  direction="row"
+                  sx={{
+                    mt: 1,
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <EditMessageButton />
+                  <DeleteMessageButton />
+                </Stack>
+              )}
             </Paper>
           );
         })}
