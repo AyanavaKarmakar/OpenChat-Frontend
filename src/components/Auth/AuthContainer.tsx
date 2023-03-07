@@ -11,7 +11,8 @@ export const AuthContainer = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        m: 5,
+        mx: 5,
+        mt: 12,
       }}
     >
       <Stack spacing={3} direction="column">
@@ -20,7 +21,7 @@ export const AuthContainer = () => {
         </Typography>
 
         <Stack
-          spacing={2}
+          spacing={1}
           direction="row"
           sx={{
             display: "flex",

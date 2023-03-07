@@ -1,3 +1,4 @@
+export { ChatContainer } from "./Chat/ChatContainer";
 export { ErrorPage } from "./ErrorPage";
 export { AuthForm } from "./Auth/AuthForm";
 export { AuthContainer } from "./Auth/AuthContainer";

@@ -1,15 +1,25 @@
-import { Box, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Fab,
+} from "@mui/material";
 import Brightness4SharpIcon from "@mui/icons-material/Brightness4Sharp";
 import BrightnessHighSharpIcon from "@mui/icons-material/BrightnessHighSharp";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useThemeStore, useUserStore } from "../../stores";
+import { useState, useEffect } from "react";
 
 export const Navbar = () => {
   const themeController = useThemeStore();
   const user = useUserStore();
+  
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             OPENCHAT
