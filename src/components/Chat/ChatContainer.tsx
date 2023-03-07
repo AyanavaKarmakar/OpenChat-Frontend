@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useErrorStore, useLoadingStore } from "../../stores";
 import { MessagesResponseSchema } from "../../types/MessagesResponseSchema";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { GetMessageTime } from "../../utils/GetMessageTime";
 
 export const ChatContainer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -18,8 +19,6 @@ export const ChatContainer = () => {
 
       const response = await fetch("http://localhost:5271/api/v1/messages");
       const data = MessagesResponseSchema.parse(await response.json());
-
-      console.log(data);
 
       return data;
     },
@@ -89,15 +88,19 @@ export const ChatContainer = () => {
           mb: 3,
         }}
       >
-        <Paper elevation={5} sx={{ p: 3, borderRadius: "10px" }}>
-          <Typography variant="h6" sx={{ lineHeight: "25px" }}>
-            This is a chat message which maybe or may not be long af
-          </Typography>
+        {GetMessages.data?.map(({ id, messageContent, sender, timestamp }) => {
+          return (
+            <Paper key={id} elevation={5} sx={{ p: 3, borderRadius: "10px" }}>
+              <Typography variant="h6" sx={{ lineHeight: "25px" }}>
+                {messageContent}
+              </Typography>
 
-          <Typography variant="subtitle1" sx={{ mt: 1 }}>
-            Username - 12:00
-          </Typography>
-        </Paper>
+              <Typography variant="subtitle1" sx={{ mt: 1 }}>
+                {`${sender} ${GetMessageTime(new Date(timestamp))}`}
+              </Typography>
+            </Paper>
+          );
+        })}
       </Stack>
     </>
   );
