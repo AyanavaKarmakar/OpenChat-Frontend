@@ -1,9 +1,42 @@
 import { Fab, Typography, Stack, Paper } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useErrorStore, useLoadingStore } from "../../stores";
 
 export const ChatContainer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const error = useErrorStore();
+  const loading = useLoadingStore();
+
+  const GetMessages = useQuery({
+    queryKey: ["get_messages"],
+
+    queryFn: async () => {
+      loading.setLoading();
+
+      const response = await fetch("http://localhost:5271/api/v1/messages");
+      const data = await response.json();
+
+      console.log(data);
+
+      return data;
+    },
+
+    enabled: true,
+
+    onSuccess: () => {
+      error.clearError();
+    },
+
+    onError: () => {
+      error.setError();
+    },
+
+    onSettled: () => {
+      loading.unsetLoading();
+    },
+  });
 
   const handleScroll = () => {
     if (window.pageYOffset > 300) {
