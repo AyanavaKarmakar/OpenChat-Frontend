@@ -7,12 +7,24 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { type FC, useState, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useErrorStore, useLoadingStore, useUserStore } from "../../stores";
+import { MessageSchema } from "../../types/MessagesResponseSchema";
+import { TBaseToastProps } from "../shared/BaseToast";
 
-export const SendMessageButton = () => {
+interface Props {
+  SetToast: (params: TBaseToastProps) => void;
+}
+
+export const SendMessageButton: FC<Props> = ({ SetToast }) => {
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const [sendMessage, setSendMessage] = useState("Hi, there!");
   const [messageContentError, setMessageContentError] = useState(false);
+  const user = useUserStore();
+  const error = useErrorStore();
+  const loading = useLoadingStore();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (sendMessage === "" || sendMessage === " ") {
@@ -25,6 +37,59 @@ export const SendMessageButton = () => {
       setMessageContentError(false);
     };
   }, [sendMessage]);
+
+  const SendMessage = useMutation({
+    mutationKey: ["sendMessage"],
+
+    mutationFn: async () => {
+      loading.setLoading();
+
+      const response = await fetch("http://localhost:5271/api/v1/messages/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender: user.username,
+          messageContent: sendMessage,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      const data = MessageSchema.parse(await response.json());
+
+      if ("messageContent" in data) {
+        SetToast({
+          severity: "success",
+          message: "Message sent successfully",
+        });
+
+        const timer = setTimeout(() => {
+          SetToast({
+            severity: "info",
+            message: "",
+          });
+        }, 5000);
+
+        return () => {
+          clearTimeout(timer);
+        };
+      }
+    },
+
+    onSuccess: () => {
+      error.clearError();
+    },
+
+    onError: () => {
+      error.setError();
+    },
+
+    onSettled: () => {
+      loading.unsetLoading();
+      setOpenAlertDialog(false);
+    },
+  });
 
   return (
     <>
@@ -63,7 +128,7 @@ export const SendMessageButton = () => {
           <Button onClick={() => setOpenAlertDialog(false)}>Cancel</Button>
           <Button
             disabled={messageContentError}
-            //onClick={() => UpdateMessage.mutate()}
+            onClick={() => SendMessage.mutate()}
             autoFocus
           >
             Send
