@@ -15,7 +15,7 @@ export const MessageDeleteResponseSchema = z.object({
   message: z.string(),
 });
 
-const MessageSchema = z.object({
+export const MessageSchema = z.object({
   id: z.number(),
   sender: z.string(),
   messageContent: z.string(),
