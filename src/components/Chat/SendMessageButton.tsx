@@ -10,7 +10,10 @@ import {
 import { type FC, useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useErrorStore, useLoadingStore, useUserStore } from "../../stores";
-import { MessageSchema } from "../../types/MessagesResponseSchema";
+import {
+  MessageSchema,
+  type TMessagesResponse,
+} from "../../types/MessagesResponseSchema";
 import { TBaseToastProps } from "../shared/BaseToast";
 
 interface Props {
@@ -75,6 +78,26 @@ export const SendMessageButton: FC<Props> = ({ SetToast }) => {
           clearTimeout(timer);
         };
       }
+    },
+
+    onMutate: () => {
+      const newMessage = {
+        id: Math.random(),
+        sender: user.username,
+        messageContent: sendMessage,
+        timestamp: new Date().toISOString(),
+      };
+
+      queryClient.setQueryData(
+        ["get_messages"],
+        (oldData: TMessagesResponse | undefined) => {
+          if (oldData) {
+            return [...oldData, newMessage];
+          } else {
+            return [newMessage];
+          }
+        }
+      );
     },
 
     onSuccess: () => {
