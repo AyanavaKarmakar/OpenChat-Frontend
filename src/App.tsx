@@ -1,4 +1,4 @@
-import { AuthContainer, ChatContainer, GreetingComponent } from "./components";
+import { AuthContainer, ChatContainer } from "./components";
 import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
 import { useUserStore } from "./stores";
@@ -21,7 +21,6 @@ const App = () => {
     <main>
       <AuthContainer />
       <ChatContainer />
-      <GreetingComponent />
     </main>
   );
 };

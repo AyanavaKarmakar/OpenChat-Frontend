@@ -8,8 +8,12 @@ import {
 } from "@mui/material";
 import { useState, type FC } from "react";
 import { useLoadingStore, useErrorStore } from "../../stores";
-import { useMutation } from "@tanstack/react-query";
-import { MessageDeleteResponseSchema } from "../../types/MessagesResponseSchema";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  type TMessage,
+  type TMessagesResponse,
+  MessageDeleteResponseSchema,
+} from "../../types/MessagesResponseSchema";
 import { BaseToast, type TBaseToastProps } from "../shared/BaseToast";
 
 interface Props {
@@ -24,6 +28,7 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
     severity: "info",
     message: "",
   });
+  const queryClient = useQueryClient();
 
   const DeleteMessage = useMutation({
     mutationKey: ["DeleteMessage"],
@@ -60,6 +65,16 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
           clearTimeout(timer);
         };
       }
+    },
+
+    onMutate: () => {
+      queryClient.setQueryData(
+        ["get_messages"],
+
+        (oldData: TMessagesResponse | undefined) => {
+          return oldData?.filter((message: TMessage) => message.id !== id);
+        }
+      );
     },
 
     onSuccess: () => {
