@@ -12,7 +12,7 @@ export const LogoutButton = () => {
   return (
     <Button
       color="error"
-      size="large"
+      size="medium"
       variant="contained"
       onClick={handleClick}
     >

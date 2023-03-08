@@ -2,6 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../../stores";
 import { LogoutButton } from "./LogoutButton";
+import { SendMessageButton } from "../Chat/SendMessageButton";
 
 export const AuthContainer = () => {
   const user = useUserStore();
@@ -16,7 +17,15 @@ export const AuthContainer = () => {
       }}
     >
       <Stack spacing={3} direction="column">
-        <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: "bold",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           CHAT LOGS
         </Typography>
 
@@ -32,11 +41,22 @@ export const AuthContainer = () => {
           {user.username === "" ? (
             <Link to="/auth" style={{ textDecoration: "none" }}>
               <Button color="primary" size="large" variant="contained">
-                <Typography variant="h6">Log in / Sign up</Typography>
+                <Typography variant="h5">Log in / Sign up</Typography>
               </Button>
             </Link>
           ) : (
-            <LogoutButton />
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <SendMessageButton />
+              <LogoutButton />
+            </Stack>
           )}
         </Stack>
       </Stack>

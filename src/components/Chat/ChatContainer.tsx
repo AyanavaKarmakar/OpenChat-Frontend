@@ -115,7 +115,7 @@ export const ChatContainer = () => {
                 {`— ${GetMessageTime(new Date(timestamp))}`}
               </Typography>
 
-              {user.username === sender || (
+              {user.username === sender && (
                 <Stack
                   direction="row"
                   sx={{
