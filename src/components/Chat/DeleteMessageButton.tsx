@@ -29,6 +29,8 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
     mutationKey: ["DeleteMessage"],
 
     mutationFn: async () => {
+      loading.setLoading();
+
       const response = await fetch(
         `http://localhost:5271/api/v1/messages/${id}`,
         {
