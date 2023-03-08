@@ -2,8 +2,12 @@ import { Button, TextField } from "@mui/material";
 import { type FC, useState, useEffect } from "react";
 import { type TBaseToastProps } from "../shared/BaseToast";
 import { useErrorStore, useLoadingStore } from "../../stores";
-import { useMutation } from "@tanstack/react-query";
-import { MessageSchema } from "../../types/MessagesResponseSchema";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  MessageSchema,
+  type TMessage,
+  type TMessagesResponse,
+} from "../../types/MessagesResponseSchema";
 
 interface Props {
   id: number;
@@ -21,6 +25,7 @@ export const EditMessageButton: FC<Props> = ({
     useState(messageContent);
   const loading = useLoadingStore();
   const error = useErrorStore();
+  const queryClient = useQueryClient();
 
   const UpdateMessage = useMutation({
     mutationKey: ["UpdateMessage"],
@@ -58,6 +63,24 @@ export const EditMessageButton: FC<Props> = ({
           clearTimeout(timer);
         };
       }
+    },
+
+    onMutate: () => {
+      queryClient.setQueryData(
+        ["get_messages"],
+
+        (oldData: TMessagesResponse | undefined) => {
+          return oldData?.map((message: TMessage) => {
+            if (message.id === id) {
+              return {
+                ...message,
+                messageContent: updatedMessageContent,
+              };
+            }
+            return message;
+          });
+        }
+      );
     },
 
     onSuccess: () => {
