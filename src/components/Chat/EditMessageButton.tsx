@@ -1,4 +1,11 @@
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 import { type FC, useState, useEffect } from "react";
 import { type TBaseToastProps } from "../shared/BaseToast";
 import { useErrorStore, useLoadingStore } from "../../stores";
@@ -23,6 +30,7 @@ export const EditMessageButton: FC<Props> = ({
   const [messageContentError, setMessageContentError] = useState(false);
   const [updatedMessageContent, setUpdatedMessageContent] =
     useState(messageContent);
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const loading = useLoadingStore();
   const error = useErrorStore();
   const queryClient = useQueryClient();
@@ -93,6 +101,7 @@ export const EditMessageButton: FC<Props> = ({
 
     onSettled: () => {
       loading.unsetLoading();
+      setOpenAlertDialog(false);
     },
   });
 
@@ -114,22 +123,44 @@ export const EditMessageButton: FC<Props> = ({
         sx={{ mt: 2 }}
         color="secondary"
         variant="contained"
-        onClick={() => UpdateMessage.mutate()}
+        onClick={() => setOpenAlertDialog(true)}
       >
         Edit
       </Button>
 
-      {/* temporary, should be replaced with dialog later */}
-      <TextField
-        type="text"
-        id="updatedMessageContent"
-        label="Update message "
-        variant="outlined"
-        defaultValue={updatedMessageContent}
-        onChange={(e) => setUpdatedMessageContent(e.target.value)}
-        helperText={messageContentError && "message cannot be empty"}
-        error={messageContentError}
-      />
+      <Dialog
+        open={openAlertDialog}
+        onClose={() => setOpenAlertDialog(false)}
+        aria-labelledby="delete-message-dialog"
+        aria-describedby="delete-message-dialog-confirmation"
+      >
+        <DialogTitle id="delete-message-alert-dialog">Update</DialogTitle>
+        <DialogContent>
+          <TextField
+            type="text"
+            id="updatedMessageContent"
+            label="Update message "
+            variant="outlined"
+            defaultValue={updatedMessageContent}
+            onChange={(e) => setUpdatedMessageContent(e.target.value)}
+            helperText={messageContentError && "message cannot be empty"}
+            error={messageContentError}
+            sx={{
+              mt: 1,
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenAlertDialog(false)}>Cancel</Button>
+          <Button
+            disabled={messageContentError}
+            onClick={() => UpdateMessage.mutate()}
+            autoFocus
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
