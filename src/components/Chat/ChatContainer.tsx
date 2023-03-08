@@ -103,12 +103,16 @@ export const ChatContainer = () => {
         {GetMessages.data?.map(({ id, messageContent, sender, timestamp }) => {
           return (
             <Paper key={id} elevation={5} sx={{ p: 3, borderRadius: "10px" }}>
-              <Typography variant="h6" sx={{ lineHeight: "25px" }}>
+              <Typography variant="h5" sx={{ lineHeight: "25px", pt: 1 }}>
                 {messageContent}
               </Typography>
 
-              <Typography variant="subtitle1" sx={{ mt: 1 }}>
-                {`${sender} ${GetMessageTime(new Date(timestamp))}`}
+              <Typography variant="subtitle1" sx={{ mt: 2 }}>
+                {`— ${sender}`}
+              </Typography>
+
+              <Typography variant="subtitle1">
+                {`— ${GetMessageTime(new Date(timestamp))}`}
               </Typography>
 
               {user.username === sender || (
