@@ -7,12 +7,21 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { GetMessageTime } from "../../utils/GetMessageTime";
 import { EditMessageButton } from "./EditMessageButton";
 import { DeleteMessageButton } from "./DeleteMessageButton";
+import { BaseToast, type TBaseToastProps } from "../shared/BaseToast";
 
 export const ChatContainer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const error = useErrorStore();
   const loading = useLoadingStore();
   const user = useUserStore();
+  const [baseToastProps, setBaseToastProps] = useState<TBaseToastProps>({
+    severity: "info",
+    message: "",
+  });
+
+  const SetToast = ({ severity, message }: TBaseToastProps) => {
+    setBaseToastProps({ severity, message });
+  };
 
   const GetMessages = useQuery({
     queryKey: ["get_messages"],
@@ -112,12 +121,19 @@ export const ChatContainer = () => {
                   }}
                 >
                   <EditMessageButton id={id} />
-                  <DeleteMessageButton id={id} />
+                  <DeleteMessageButton id={id} SetToast={SetToast} />
                 </Stack>
               )}
             </Paper>
           );
         })}
+
+        {baseToastProps.message !== "" && (
+          <BaseToast
+            severity={baseToastProps.severity}
+            message={baseToastProps.message}
+          />
+        )}
       </Stack>
     </>
   );

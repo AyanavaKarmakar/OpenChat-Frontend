@@ -9,25 +9,22 @@ import {
 import { useState, type FC } from "react";
 import { useLoadingStore, useErrorStore } from "../../stores";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { type TBaseToastProps } from "../shared/BaseToast";
 import {
   type TMessage,
   type TMessagesResponse,
   MessageDeleteResponseSchema,
 } from "../../types/MessagesResponseSchema";
-import { BaseToast, type TBaseToastProps } from "../shared/BaseToast";
 
 interface Props {
   id: number;
+  SetToast: (params: TBaseToastProps) => void;
 }
 
-export const DeleteMessageButton: FC<Props> = ({ id }) => {
+export const DeleteMessageButton: FC<Props> = ({ id, SetToast }) => {
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const loading = useLoadingStore();
   const error = useErrorStore();
-  const [baseToastProps, setBaseToastProps] = useState<TBaseToastProps>({
-    severity: "info",
-    message: "",
-  });
   const queryClient = useQueryClient();
 
   const DeleteMessage = useMutation({
@@ -49,20 +46,20 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
         "message" in data &&
         data.message === "Message deleted successfully"
       ) {
-        setBaseToastProps({
+        SetToast({
           severity: "success",
           message: "Message deleted successfully",
         });
 
-        const timer = setTimeout(() => {
-          setBaseToastProps({
+        const Timer = setTimeout(() => {
+          SetToast({
             severity: "info",
             message: "",
           });
         }, 5000);
 
         return () => {
-          clearTimeout(timer);
+          clearTimeout(Timer);
         };
       }
     },
@@ -101,7 +98,6 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
       >
         Delete
       </Button>
-
       <Dialog
         open={openAlertDialog}
         onClose={() => setOpenAlertDialog(false)}
@@ -124,13 +120,6 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      {baseToastProps.message !== "" && (
-        <BaseToast
-          severity={baseToastProps.severity}
-          message={baseToastProps.message}
-        />
-      )}
     </>
   );
 };
