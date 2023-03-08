@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useErrorStore, useLoadingStore, useUserStore } from "../../stores";
 import { MessagesResponseSchema } from "../../types/MessagesResponseSchema";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { GetMessageTime } from "../../utils/GetMessageTime";
 import { EditMessageButton } from "./EditMessageButton";
 import { DeleteMessageButton } from "./DeleteMessageButton";
 import { BaseToast, type TBaseToastProps } from "../shared/BaseToast";
@@ -100,7 +99,7 @@ export const ChatContainer = () => {
           mb: 3,
         }}
       >
-        {GetMessages.data?.map(({ id, messageContent, sender, timestamp }) => {
+        {GetMessages.data?.map(({ id, messageContent, sender }) => {
           return (
             <Paper key={id} elevation={5} sx={{ p: 3, borderRadius: "10px" }}>
               <Typography variant="h5" sx={{ lineHeight: "25px", pt: 1 }}>
@@ -109,10 +108,6 @@ export const ChatContainer = () => {
 
               <Typography variant="subtitle1" sx={{ mt: 2 }}>
                 {`— ${sender}`}
-              </Typography>
-
-              <Typography variant="subtitle1">
-                {`— ${GetMessageTime(new Date(timestamp))}`}
               </Typography>
 
               {user.username === sender && (
