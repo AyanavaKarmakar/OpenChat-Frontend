@@ -8,3 +8,7 @@ export const MessagesResponseSchema = z.array(
     timestamp: z.string(),
   })
 );
+
+export const MessageDeleteResponseSchema = z.object({
+  message: z.string(),
+});
