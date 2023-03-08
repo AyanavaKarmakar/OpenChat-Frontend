@@ -131,10 +131,10 @@ export const EditMessageButton: FC<Props> = ({
       <Dialog
         open={openAlertDialog}
         onClose={() => setOpenAlertDialog(false)}
-        aria-labelledby="delete-message-dialog"
-        aria-describedby="delete-message-dialog-confirmation"
+        aria-labelledby="update-message-dialog"
+        aria-describedby="update-message-dialog-confirmation"
       >
-        <DialogTitle id="delete-message-alert-dialog">Update</DialogTitle>
+        <DialogTitle id="update-message-alert-dialog">Update</DialogTitle>
         <DialogContent>
           <TextField
             type="text"
