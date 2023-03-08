@@ -1,4 +1,11 @@
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { useState, type FC } from "react";
 import { useLoadingStore, useErrorStore } from "../../stores";
 import { useMutation } from "@tanstack/react-query";
@@ -10,6 +17,7 @@ interface Props {
 }
 
 export const DeleteMessageButton: FC<Props> = ({ id }) => {
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const loading = useLoadingStore();
   const error = useErrorStore();
   const [baseToastProps, setBaseToastProps] = useState<TBaseToastProps>({
@@ -62,6 +70,7 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
 
     onSettled: () => {
       loading.unsetLoading();
+      setOpenAlertDialog(false);
     },
   });
 
@@ -71,10 +80,33 @@ export const DeleteMessageButton: FC<Props> = ({ id }) => {
         color="error"
         variant="contained"
         sx={{ mt: 2, ml: 1 }}
-        onClick={() => DeleteMessage.mutate()}
+        onClick={() => setOpenAlertDialog(true)}
       >
         Delete
       </Button>
+
+      <Dialog
+        open={openAlertDialog}
+        onClose={() => setOpenAlertDialog(false)}
+        aria-labelledby="delete-message-dialog"
+        aria-describedby="delete-message-dialog-confirmation"
+      >
+        <DialogTitle id="delete-message-alert-dialog">
+          Delete Message
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="delete-message-alert-dialog-description">
+            Are you sure you want to delete this message? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenAlertDialog(false)}>Disagree</Button>
+          <Button onClick={() => DeleteMessage.mutate()} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {baseToastProps.message !== "" && (
         <BaseToast
