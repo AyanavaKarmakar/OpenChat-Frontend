@@ -1,4 +1,4 @@
-# [OpenChat](https://github.com/AyanavaKarmakar/OpenChat-Backend)-Frontend (Work in Progress)
+![OpenChat-Frontend](https://socialify.git.ci/AyanavaKarmakar/OpenChat-Frontend/image?description=1&font=Raleway&language=1&name=1&pattern=Solid&theme=Dark)
 
 ## Getting Started
 
